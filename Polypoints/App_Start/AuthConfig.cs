@@ -22,9 +22,9 @@ namespace Polypoints
             //    consumerKey: "",
             //    consumerSecret: "");
 
-            //OAuthWebSecurity.RegisterFacebookClient(
-            //    appId: "",
-            //    appSecret: "");
+            OAuthWebSecurity.RegisterFacebookClient(
+                appId: "1423948381250066",
+                appSecret: "38a72f6473cf84648c6ee6d9815412c9");
 
             //OAuthWebSecurity.RegisterGoogleClient();
         }
