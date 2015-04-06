@@ -1,0 +1,41 @@
+﻿@model Polypoints.Models.Client
+
+@{
+    ViewBag.Title = "Details";
+}
+@section featured {
+    <h2>Details</h2>
+}
+
+<fieldset>
+    <legend>Client</legend>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="display-label">
+                 @Html.DisplayNameFor(model => model.ClientName):
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="display-field">
+                @Html.DisplayFor(model => model.ClientName)
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div>
+                @foreach (var item in Model.ClientUsers)
+                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            ID: @Html.DisplayFor(modelItem => item.UserID)
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ClientID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,13 +1,43 @@
-﻿@if (Request.IsAuthenticated) {
-    <text>
+﻿<style type="text/css">
+    #login {
+    text-align: right;
+}
+
+    #login a {
+        text-decoration: none;
+    }
+
+    #login a.username {
+        margin: 0;
+        padding: 0;
+        text-decoration: underline;
+        color: white;
+        line-height: 40px;
+    }
+
+    #login ul {
+        margin: 0;
+    }
+
+    #login li {
+        display: inline;
+        list-style: none;
+    }
+</style>
+@if (Request.IsAuthenticated) {
+    <div class="nav navbar-nav">
         Hello, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
+    </div>
+    <div class="nav navbar-nav">
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
-            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            <ul class="nav navbar-nav">
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
         }
-    </text>
+    </div>
 } else {
-    <ul>
+    <ul class="nav navbar-nav">
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>

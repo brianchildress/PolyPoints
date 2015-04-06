@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Polypoints.Models.Client>
+
+@{
+    ViewBag.Title = "Clients";
+}
+@section featured {
+    <h2>@ViewBag.Title.</h2>
+    <h3>@ViewBag.Message</h3>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+
+<div class="row">
+  <div class="col-md-12">
+
+            @Html.DisplayNameFor(model => model.ClientName)
+    </div>
+</div>
+
+
+@foreach (var item in Model) {
+    <div class="row">
+        <div class="col-md-4">
+            @Html.DisplayFor(modelItem => item.ClientName)
+        </div>
+        <div class="col-md-8">
+            @Html.ActionLink("Edit", "Edit", new { id=item.ClientID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ClientID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ClientID })
+        </div>
+    </div>
+}
+
+      

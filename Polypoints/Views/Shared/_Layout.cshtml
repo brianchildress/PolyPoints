@@ -5,7 +5,7 @@
         <title>@ViewBag.Title - My ASP.NET MVC Application</title>
         @RenderSection("meta", required: false)
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+        
         <link href="~/Content/themes/default/bootstrap.css" rel="stylesheet">
 
         @Html.Partial("_html5shiv")
@@ -20,7 +20,11 @@
     <body>
         @Html.Partial("_NavBar")
 
-        @RenderSection("featured", required: false)
+        <div class="jumbotron">
+            <div class="container">
+                @RenderSection("featured", required: false)
+            </div>
+        </div>
 
         <div class="container">
             @RenderBody()

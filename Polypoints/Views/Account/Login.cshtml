@@ -3,10 +3,15 @@
 @{
     ViewBag.Title = "Log in";
 }
-
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
+@section featured {
+  <div class="jumbotron">
+    <div class="container">
+        <hgroup class="title">
+            <h1>@ViewBag.Title.</h1>
+        </hgroup>
+    </div>
+  </div>
+}
 
 <section id="loginForm">
 <h2>Use a local account to log in.</h2>

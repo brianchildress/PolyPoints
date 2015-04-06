@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="polypointsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="polypointsModelStoreContainer">
+          <EntitySet Name="Clients" EntityType="polypointsModel.Store.Clients" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ClientUsers" EntityType="polypointsModel.Store.ClientUsers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="QuestionResponses" EntityType="polypointsModel.Store.QuestionResponses" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Questions" EntityType="polypointsModel.Store.Questions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Roles" EntityType="polypointsModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ClientUsers_Clients" Association="polypointsModel.Store.FK_ClientUsers_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="ClientUsers" EntitySet="ClientUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientUsers_Roles" Association="polypointsModel.Store.FK_ClientUsers_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="ClientUsers" EntitySet="ClientUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestionResponses_Questions" Association="polypointsModel.Store.FK_QuestionResponses_Questions">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="QuestionResponses" EntitySet="QuestionResponses" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ClientName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ClientUsers">
+          <Key>
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RoleID" Type="int" />
+        </EntityType>
+        <EntityType Name="QuestionResponses">
+          <Key>
+            <PropertyRef Name="QuestionResponseID" />
+          </Key>
+          <Property Name="QuestionResponseID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionID" Type="int" />
+          <Property Name="ResponseText" Type="text" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="int" />
+          <Property Name="QuestionText" Type="text" />
+          <Property Name="QuestionType" Type="int" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="QuestionImage" Type="varbinary" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_ClientUsers_Clients">
+          <End Role="Clients" Type="polypointsModel.Store.Clients" Multiplicity="1" />
+          <End Role="ClientUsers" Type="polypointsModel.Store.ClientUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="ClientUsers">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientUsers_Roles">
+          <End Role="Roles" Type="polypointsModel.Store.Roles" Multiplicity="0..1" />
+          <End Role="ClientUsers" Type="polypointsModel.Store.ClientUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ClientUsers">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestionResponses_Questions">
+          <End Role="Questions" Type="polypointsModel.Store.Questions" Multiplicity="0..1" />
+          <End Role="QuestionResponses" Type="polypointsModel.Store.QuestionResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="QuestionID" />
+            </Principal>
+            <Dependent Role="QuestionResponses">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="polypointsModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="polypointsEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="polypointsModel.Client" />
+          <EntitySet Name="QuestionResponses" EntityType="polypointsModel.QuestionRespons" />
+          <EntitySet Name="Questions" EntityType="polypointsModel.Question" />
+          <EntitySet Name="Roles" EntityType="polypointsModel.Role" />
+          <AssociationSet Name="FK_QuestionResponses_Questions" Association="polypointsModel.FK_QuestionResponses_Questions">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="QuestionRespons" EntitySet="QuestionResponses" />
+          </AssociationSet>
+          <EntitySet Name="ClientUsers" EntityType="polypointsModel.ClientUser" />
+          <AssociationSet Name="FK_ClientUsers_Clients" Association="polypointsModel.FK_ClientUsers_Clients">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="ClientUser" EntitySet="ClientUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientUsers_Roles" Association="polypointsModel.FK_ClientUsers_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ClientUser" EntitySet="ClientUsers" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientName" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="ClientUsers" Relationship="polypointsModel.FK_ClientUsers_Clients" FromRole="Client" ToRole="ClientUser" />
+        </EntityType>
+        <EntityType Name="QuestionRespons">
+          <Key>
+            <PropertyRef Name="QuestionResponseID" />
+          </Key>
+          <Property Name="QuestionResponseID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionID" Type="Int32" />
+          <Property Name="ResponseText" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Question" Relationship="polypointsModel.FK_QuestionResponses_Questions" FromRole="QuestionRespons" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="Int32" />
+          <Property Name="QuestionText" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="QuestionType" Type="Int32" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="QuestionImage" Type="Binary" MaxLength="1" FixedLength="false" />
+          <NavigationProperty Name="QuestionResponses" Relationship="polypointsModel.FK_QuestionResponses_Questions" FromRole="Question" ToRole="QuestionRespons" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="ClientUsers" Relationship="polypointsModel.FK_ClientUsers_Roles" FromRole="Role" ToRole="ClientUser" />
+        </EntityType>
+        <Association Name="FK_QuestionResponses_Questions">
+          <End Type="polypointsModel.Question" Role="Question" Multiplicity="0..1" />
+          <End Type="polypointsModel.QuestionRespons" Role="QuestionRespons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionID" />
+            </Principal>
+            <Dependent Role="QuestionRespons">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ClientUser">
+          <Key>
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="RoleID" />
+          <NavigationProperty Name="Client" Relationship="polypointsModel.FK_ClientUsers_Clients" FromRole="ClientUser" ToRole="Client" />
+          <NavigationProperty Name="Role" Relationship="polypointsModel.FK_ClientUsers_Roles" FromRole="ClientUser" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_ClientUsers_Clients">
+          <End Type="polypointsModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="polypointsModel.ClientUser" Role="ClientUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="ClientUser">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientUsers_Roles">
+          <End Type="polypointsModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="polypointsModel.ClientUser" Role="ClientUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ClientUser">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="polypointsModelStoreContainer" CdmEntityContainer="polypointsEntities">
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="polypointsModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionResponses">
+            <EntityTypeMapping TypeName="polypointsModel.QuestionRespons">
+              <MappingFragment StoreEntitySet="QuestionResponses">
+                <ScalarProperty Name="QuestionResponseID" ColumnName="QuestionResponseID" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="ResponseText" ColumnName="ResponseText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="polypointsModel.Question">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="QuestionImage" ColumnName="QuestionImage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="polypointsModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientUsers">
+            <EntityTypeMapping TypeName="polypointsModel.ClientUser">
+              <MappingFragment StoreEntitySet="ClientUsers">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
