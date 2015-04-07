@@ -49,10 +49,6 @@ namespace Polypoints.Controllers
 
         public ActionResult Details(int id)
         {
-            int HelloWorld = getInt("hello");
-            HelloWorld = getInt("world");
-            HelloWorld = getInt("World");
-
             using (var db = new polypointsEntities())
             {
                 var _clients = db.Clients.Where(c => c.ClientID == id)
