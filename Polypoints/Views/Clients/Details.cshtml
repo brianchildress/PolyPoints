@@ -15,20 +15,54 @@
                  @Html.DisplayNameFor(model => model.ClientName):
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="display-field">
                 @Html.DisplayFor(model => model.ClientName)
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
             <div>
+                <h4>Users</h4>
+                @{ int counter=0; }
                 @foreach (var item in Model.ClientUsers)
                 {
+                    counter++;
                     <div class="row">
                         <div class="col-md-4">
-                            ID: @Html.DisplayFor(modelItem => item.UserID)
+                            ID: 
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DisplayFor(modelItem => item.UserID)
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            User Name: 
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DisplayFor(modelItem => item.UserProfile.UserName)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            Name: 
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DisplayFor(modelItem => item.UserProfile.FirstName)  @Html.DisplayFor(modelItem => item.UserProfile.LastName)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            Role: 
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DisplayFor(modelItem => item.Role.RoleName)
+                        </div>
+                    </div>
+                    if(counter<Model.ClientUsers.Count) 
+                    {
+                    <div class="row"><div>&nbsp;</div></div>
+                    } 
                 }
             </div>
         </div>

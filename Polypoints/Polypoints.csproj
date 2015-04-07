@@ -223,13 +223,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PolyPointsModels.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ppModels.cs" />
     <Compile Include="Models\Question.cs">
       <DependentUpon>PolyPointsModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\QuestionRespons.cs">
       <DependentUpon>PolyPointsModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\QuestionType.cs">
+      <DependentUpon>PolyPointsModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Role.cs">
+      <DependentUpon>PolyPointsModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserProfile.cs">
       <DependentUpon>PolyPointsModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,7 +10,9 @@
           <EntitySet Name="ClientUsers" EntityType="polypointsModel.Store.ClientUsers" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="QuestionResponses" EntityType="polypointsModel.Store.QuestionResponses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Questions" EntityType="polypointsModel.Store.Questions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="QuestionType" EntityType="polypointsModel.Store.QuestionType" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Roles" EntityType="polypointsModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserProfile" EntityType="polypointsModel.Store.UserProfile" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_ClientUsers_Clients" Association="polypointsModel.Store.FK_ClientUsers_Clients">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="ClientUsers" EntitySet="ClientUsers" />
@@ -19,9 +21,17 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="ClientUsers" EntitySet="ClientUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_ClientUsers_UserProfile" Association="polypointsModel.Store.FK_ClientUsers_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="ClientUsers" EntitySet="ClientUsers" />
+          </AssociationSet>
           <AssociationSet Name="FK_QuestionResponses_Questions" Association="polypointsModel.Store.FK_QuestionResponses_Questions">
             <End Role="Questions" EntitySet="Questions" />
             <End Role="QuestionResponses" EntitySet="QuestionResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Questions_QuestionType" Association="polypointsModel.Store.FK_Questions_QuestionType">
+            <End Role="QuestionType" EntitySet="QuestionType" />
+            <End Role="Questions" EntitySet="Questions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Clients">
@@ -57,7 +67,15 @@
           <Property Name="QuestionText" Type="text" />
           <Property Name="QuestionType" Type="int" />
           <Property Name="ParentID" Type="int" />
-          <Property Name="QuestionImage" Type="varbinary" MaxLength="1" />
+          <Property Name="QuestionImage" Type="varbinary(max)" />
+          <Property Name="ParentResponseID" Type="int" />
+        </EntityType>
+        <EntityType Name="QuestionType">
+          <Key>
+            <PropertyRef Name="QuestionTypeID" />
+          </Key>
+          <Property Name="QuestionTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionTypeName" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -65,6 +83,15 @@
           </Key>
           <Property Name="RoleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="56" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_ClientUsers_Clients">
           <End Role="Clients" Type="polypointsModel.Store.Clients" Multiplicity="1" />
@@ -90,6 +117,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ClientUsers_UserProfile">
+          <End Role="UserProfile" Type="polypointsModel.Store.UserProfile" Multiplicity="1" />
+          <End Role="ClientUsers" Type="polypointsModel.Store.ClientUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ClientUsers">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_QuestionResponses_Questions">
           <End Role="Questions" Type="polypointsModel.Store.Questions" Multiplicity="0..1" />
           <End Role="QuestionResponses" Type="polypointsModel.Store.QuestionResponses" Multiplicity="*" />
@@ -99,6 +138,18 @@
             </Principal>
             <Dependent Role="QuestionResponses">
               <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Questions_QuestionType">
+          <End Role="QuestionType" Type="polypointsModel.Store.QuestionType" Multiplicity="0..1" />
+          <End Role="Questions" Type="polypointsModel.Store.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionType">
+              <PropertyRef Name="QuestionTypeID" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="QuestionType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -123,6 +174,16 @@
           <AssociationSet Name="FK_ClientUsers_Roles" Association="polypointsModel.FK_ClientUsers_Roles">
             <End Role="Role" EntitySet="Roles" />
             <End Role="ClientUser" EntitySet="ClientUsers" />
+          </AssociationSet>
+          <EntitySet Name="UserProfiles" EntityType="polypointsModel.UserProfile" />
+          <AssociationSet Name="FK_ClientUsers_UserProfile" Association="polypointsModel.FK_ClientUsers_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="ClientUser" EntitySet="ClientUsers" />
+          </AssociationSet>
+          <EntitySet Name="QuestionTypes" EntityType="polypointsModel.QuestionType" />
+          <AssociationSet Name="FK_Questions_QuestionType" Association="polypointsModel.FK_Questions_QuestionType">
+            <End Role="QuestionType" EntitySet="QuestionTypes" />
+            <End Role="Question" EntitySet="Questions" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Client">
@@ -151,8 +212,10 @@
           <Property Name="QuestionText" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="QuestionType" Type="Int32" />
           <Property Name="ParentID" Type="Int32" />
-          <Property Name="QuestionImage" Type="Binary" MaxLength="1" FixedLength="false" />
+          <Property Name="QuestionImage" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="QuestionResponses" Relationship="polypointsModel.FK_QuestionResponses_Questions" FromRole="Question" ToRole="QuestionRespons" />
+          <Property Type="Int32" Name="ParentResponseID" />
+          <NavigationProperty Name="QuestionType1" Relationship="polypointsModel.FK_Questions_QuestionType" FromRole="Question" ToRole="QuestionType" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -184,6 +247,7 @@
           <Property Type="Int32" Name="RoleID" />
           <NavigationProperty Name="Client" Relationship="polypointsModel.FK_ClientUsers_Clients" FromRole="ClientUser" ToRole="Client" />
           <NavigationProperty Name="Role" Relationship="polypointsModel.FK_ClientUsers_Roles" FromRole="ClientUser" ToRole="Role" />
+          <NavigationProperty Name="UserProfile" Relationship="polypointsModel.FK_ClientUsers_UserProfile" FromRole="ClientUser" ToRole="UserProfile" />
         </EntityType>
         <Association Name="FK_ClientUsers_Clients">
           <End Type="polypointsModel.Client" Role="Client" Multiplicity="1" />
@@ -206,6 +270,48 @@
             </Principal>
             <Dependent Role="ClientUser">
               <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LastName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ClientUsers" Relationship="polypointsModel.FK_ClientUsers_UserProfile" FromRole="UserProfile" ToRole="ClientUser" />
+        </EntityType>
+        <Association Name="FK_ClientUsers_UserProfile">
+          <End Type="polypointsModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="polypointsModel.ClientUser" Role="ClientUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ClientUser">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="QuestionType">
+          <Key>
+            <PropertyRef Name="QuestionTypeID" />
+          </Key>
+          <Property Type="Int32" Name="QuestionTypeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="QuestionTypeName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Questions" Relationship="polypointsModel.FK_Questions_QuestionType" FromRole="QuestionType" ToRole="Question" />
+        </EntityType>
+        <Association Name="FK_Questions_QuestionType">
+          <End Type="polypointsModel.QuestionType" Role="QuestionType" Multiplicity="0..1" />
+          <End Type="polypointsModel.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionType">
+              <PropertyRef Name="QuestionTypeID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="QuestionType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -235,6 +341,7 @@
           <EntitySetMapping Name="Questions">
             <EntityTypeMapping TypeName="polypointsModel.Question">
               <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="ParentResponseID" ColumnName="ParentResponseID" />
                 <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
                 <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
@@ -258,6 +365,24 @@
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="polypointsModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionTypes">
+            <EntityTypeMapping TypeName="polypointsModel.QuestionType">
+              <MappingFragment StoreEntitySet="QuestionType">
+                <ScalarProperty Name="QuestionTypeName" ColumnName="QuestionTypeName" />
+                <ScalarProperty Name="QuestionTypeID" ColumnName="QuestionTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

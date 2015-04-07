@@ -8,11 +8,12 @@ using System.Web.Mvc;
 
 namespace Polypoints.Controllers
 {
+    [Authorize]
     public class ClientsController : Controller
     {
         //
         // GET: /Clients/
-
+        
         public ActionResult Index()
         {
             {
@@ -48,9 +49,18 @@ namespace Polypoints.Controllers
 
         public ActionResult Details(int id)
         {
+            int HelloWorld = getInt("hello");
+            HelloWorld = getInt("world");
+            HelloWorld = getInt("World");
+
             using (var db = new polypointsEntities())
             {
-                return View(db.Clients.Include(clients => clients.ClientUsers).Where(c => c.ClientID == id).FirstOrDefault());
+                var _clients = db.Clients.Where(c => c.ClientID == id)
+                    .Include(c => c.ClientUsers.Select(cu => cu.Role))
+                    .Include(clients => clients.ClientUsers.Select(cu => cu.UserProfile))
+                    .FirstOrDefault();
+                
+                return View(_clients);
             }
         }
         public ActionResult Edit(int id)

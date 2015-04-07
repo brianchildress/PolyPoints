@@ -30,5 +30,7 @@ namespace Polypoints.Models
         public DbSet<Question> Questions { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<ClientUser> ClientUsers { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<QuestionType> QuestionTypes { get; set; }
     }
 }

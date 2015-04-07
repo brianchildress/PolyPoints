@@ -20,5 +20,6 @@ namespace Polypoints.Models
     
         public virtual Client Client { get; set; }
         public virtual Role Role { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
     }
 }

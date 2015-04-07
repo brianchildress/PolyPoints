@@ -9,7 +9,7 @@ namespace Polypoints.Models
     {
         public class PPClient : Client
         {
- 
+            public List<ClientUser> loClientUsers { get; set; }
         }
     }
 }

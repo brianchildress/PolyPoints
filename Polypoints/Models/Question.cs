@@ -25,7 +25,9 @@ namespace Polypoints.Models
         public Nullable<int> QuestionType { get; set; }
         public Nullable<int> ParentID { get; set; }
         public byte[] QuestionImage { get; set; }
+        public Nullable<int> ParentResponseID { get; set; }
     
         public virtual ICollection<QuestionRespons> QuestionResponses { get; set; }
+        public virtual QuestionType QuestionType1 { get; set; }
     }
 }
